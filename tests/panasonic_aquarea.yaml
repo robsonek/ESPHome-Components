@@ -53,7 +53,13 @@ number:
   - platform: panasonic_aquarea
     set: 46
   - platform: panasonic_aquarea
-    set: "5:direct"
+    set: 5
+  - platform: panasonic_aquarea
+    set: 6
+  - platform: panasonic_aquarea
+    set: 7
+  - platform: panasonic_aquarea
+    set: 8
 
 button:
   - platform: panasonic_aquarea
