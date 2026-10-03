@@ -67,9 +67,7 @@ class PlatformDescriptor(ABC, Generic[T]):
         data[cls._id_field_name()] = key
 
         if active_when := values.pop("active_when", None):
-            assert len(active_when) == 1, "active_when must name exactly one entity"
-            ((full_id, value),) = active_when.items()
-            data["active_condition"] = Platform.find(full_id).extractor.active_condition(value)
+            data["active_condition"] = variant_condition(active_when)
 
         return cls(**data, **values)
 
@@ -193,3 +191,10 @@ class Platform:
 
     async def to_code(self, config: dict) -> Any:
         return await self._descriptors[config[self._id_field]].to_code(config)
+
+
+def variant_condition(spec: dict) -> LambdaExpression:
+    assert len(spec) == 1, "condition must name exactly one entity"
+    ((full_id, value),) = spec.items()
+    return Platform.find(full_id).extractor.active_condition(value)
+
